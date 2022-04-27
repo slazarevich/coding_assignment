@@ -1,8 +1,24 @@
-const App = () => {
+import { Provider } from "react-redux";
+import createSagaMiddleware from "redux-saga";
+import RootLayout from "./RootLayout";
+import { createStore, applyMiddleware } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import { createRootReducer, rootSaga } from "./store";
+
+const composeEnhancers = composeWithDevTools({ trace: true, traceLimit: 25 });
+const sagaMiddleware = createSagaMiddleware();
+const store = createStore(
+    createRootReducer(),
+    composeEnhancers(applyMiddleware(sagaMiddleware))
+);
+
+sagaMiddleware.run(rootSaga);
+
+const App: React.FC = () => {
     return (
-        <div className="App">
-            <p>Hello!</p>
-        </div>
+        <Provider store={store}>
+            <RootLayout />
+        </Provider>
     );
 };
 
