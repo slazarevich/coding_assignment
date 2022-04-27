@@ -1,4 +1,5 @@
 import { Question } from "../store/questions/types";
+import styled from "styled-components";
 import ColumnItem from "./ColumnItem";
 
 interface ColumnProps {
@@ -17,20 +18,33 @@ const Column: React.FC<ColumnProps> = ({
 
     return (
         <div>
-            <h2>
-                {title} {`${activeCount}/${totalCount}`}
-            </h2>
-            {items.map((item) => {
-                return (
-                    <ColumnItem
-                        key={item.id}
-                        itemData={item}
-                        handleColumnItemClick={handleColumnItemClick}
-                    />
-                );
-            })}
+            <Title>
+                {title} {` - ${activeCount}/${totalCount}`}
+            </Title>
+            <ColumnWrapper>
+                {items.map((item) => {
+                    return (
+                        <ColumnItem
+                            key={item.id}
+                            itemData={item}
+                            handleColumnItemClick={handleColumnItemClick}
+                        />
+                    );
+                })}
+            </ColumnWrapper>
         </div>
     );
 };
+
+const Title = styled.h2`
+    font-size: 18px;
+    font-weight: 600;
+`;
+
+const ColumnWrapper = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+`;
 
 export default Column;

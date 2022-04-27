@@ -1,12 +1,12 @@
-import { all, fork, put, call, takeLatest } from "redux-saga/effects";
+import { all, fork, put, takeLatest } from "redux-saga/effects";
 import { getQuestionsError, getQuestionsSuccess } from "./actions";
 import { IQuestionsActionType } from "./types";
-import axios from "axios";
+// import axios from "axios";
 import DATA from "../../DATA";
 
 function* handleQuestionsRequest(action: any): any {
-    const userData = action.payload;
-    const url = "https://www.algoexpert.io/api/fe/questions";
+    // const userData = action.payload;
+    // const url = "https://www.algoexpert.io/api/fe/questions";
 
     try {
         // const res = yield call(axios.get, url);

@@ -4,6 +4,7 @@ import RootLayout from "./RootLayout";
 import { createStore, applyMiddleware } from "redux";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { createRootReducer, rootSaga } from "./store";
+import "./App.css";
 
 const composeEnhancers = composeWithDevTools({ trace: true, traceLimit: 25 });
 const sagaMiddleware = createSagaMiddleware();

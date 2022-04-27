@@ -11,6 +11,7 @@ import { ApplicationState } from "./store";
 import { Question } from "./store/questions/types";
 import ProgressBar from "./UI/ProgressBar";
 import { getDataFromLocalStorage } from "./store/utils";
+import Button from "./UI/Button";
 
 const getQuestionsByCategory = (questions: Question[]) => {
     const questionsByCategory = {};
@@ -26,13 +27,6 @@ const getQuestionsByCategory = (questions: Question[]) => {
     return questionsByCategory;
 };
 
-const getProgressBarState = (questions: Question[]) => {
-    const activeCount = questions.filter((q) => q.isActive).length;
-    const totalCount = questions.length;
-
-    return Math.round((activeCount / totalCount) * 100);
-};
-
 const RootLayout: React.FC = () => {
     const dispatch = useDispatch();
     const data = useSelector<ApplicationState, Question[]>(
@@ -41,6 +35,7 @@ const RootLayout: React.FC = () => {
 
     useEffect(() => {
         handleGetData();
+        // eslint-disable-next-line
     }, []);
 
     const handleGetData = () => {
@@ -55,12 +50,38 @@ const RootLayout: React.FC = () => {
         dispatch(toggleQuestionStatus(questionId));
     };
 
+    const activeCount = data.filter((q) => q.isActive).length;
+    const totalCount = data.length;
+    const proggressBarState = Math.round((activeCount / totalCount) * 100);
     const questionsByCategory = getQuestionsByCategory(data);
-    const proggressBarState = getProgressBarState(data);
 
     return (
-        <>
-            <ProgressBar now={proggressBarState} />
+        <Wrapper>
+            <Header>
+                <Title>{`${activeCount} Questions Completed out of ${totalCount}`}</Title>
+                <ProgressBarWrapper>
+                    <ProgressBar now={proggressBarState} />
+                </ProgressBarWrapper>
+                <Buttons>
+                    <Button
+                        title={"FrontendExpert Certificate"}
+                        onClick={() => {}}
+                    />
+                    <Button title={"Recruiting Profile"} onClick={() => {}} />
+                </Buttons>
+                <Buttons>
+                    <Button
+                        title={"Group by Category"}
+                        onClick={() => {}}
+                        isLight
+                    />
+                    <Button
+                        title={"Group by Randomly"}
+                        onClick={() => {}}
+                        isLight
+                    />
+                </Buttons>
+            </Header>
             <Columns>
                 {Object.keys(questionsByCategory).map((key) => (
                     <Column
@@ -72,13 +93,42 @@ const RootLayout: React.FC = () => {
                     />
                 ))}
             </Columns>
-        </>
+        </Wrapper>
     );
 };
+
+const Wrapper = styled.div`
+    height: 100%;
+    background: linear-gradient(0.5turn, #ffffff, #d6d6d6);
+`;
+
+const Header = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 60px;
+`;
+
+const ProgressBarWrapper = styled.div`
+    width: 485px;
+`;
+
+const Title = styled.h1`
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+`;
 
 const Columns = styled.div`
     display: flex;
     justify-content: center;
+    gap: 15px;
+`;
+
+const Buttons = styled.div`
+    margin-top: 40px;
+    display: flex;
+    gap: 10px;
 `;
 
 export default RootLayout;
