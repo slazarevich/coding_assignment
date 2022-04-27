@@ -5,6 +5,8 @@ import { IQuestionsActionType } from "./types";
 import DATA from "../../DATA";
 
 function* handleQuestionsRequest(action: any): any {
+    // Не удалось подключиться к указанному API из-за CORS политики сервера.
+    // В качестве временного прокинул данные из DATA.ts.
     // const userData = action.payload;
     // const url = "https://www.algoexpert.io/api/fe/questions";
 
